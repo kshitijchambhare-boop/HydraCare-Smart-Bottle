@@ -1,14 +1,22 @@
-# 💧 HydraCare – Smart Patient Hydration Bottle
-Hackathon prototype: hydration reminders, smart-bottle simulation, caregiver dashboard, analytics, IoT simulation & hardware architecture.
+# HydraCare - Smart Patient Hydration Bottle
+
+Hackathon prototype with hydration reminders, a smart-bottle simulation, caregiver dashboard, analytics, IoT simulation, and hardware architecture.
+
 > Prototype only. Data is stored locally in the browser. No medical diagnosis is performed.
 
-## Live website (GitHub Pages)
-1. Push all files to your repo (root).
-2. Repo → **Settings → Pages → Source: Deploy from a branch → main / (root) → Save**.
-3. Open `https://<username>.github.io/<repo>/`
+## Publish with GitHub Pages
+
+1. In the repository, open **Settings → Pages**.
+2. Under **Build and deployment**, choose **Deploy from a branch**.
+3. Select branch **main** and folder **/(root)**, then save.
+4. Once deployment finishes, open the URL shown on the Pages settings screen.
+
+The page and its CSS and JavaScript files are all in the repository root, so no build step is required.
 
 ## Run locally
-Just open `index.html`, or: `npm install` then `npm start` → http://localhost:3000
 
-## Demo (2 min)
-Landing → Open Dashboard → **▶ Demo Day** → Analytics → Caregiver (**Simulate long gap**) → IoT Monitor → Hardware.
+Open `index.html` in a browser, or serve this folder with any static HTTP server. Browser notifications work best over localhost or HTTPS.
+
+## Demo
+
+Landing → Open Dashboard → **Demo Day** → Analytics → Caregiver (**Simulate long gap**) → IoT Monitor → Hardware.
