@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HydraCare – Smart Patient Hydration Bottle</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script></head><body>
+
+<div id="landing">
+ <nav class="ln"><b>💧 HydraCare</b><button class="btn" data-act="enter">Open Dashboard</button></nav>
+ <div class="hero">
+  <div><span class="pill ok">Healthcare IoT Prototype</span>
+   <h1>Hydration That Cares.</h1>
+   <p>An intelligent smart bottle designed to help patients stay hydrated through personalized reminders, real-time monitoring, and caregiver insights.</p>
+   <button class="btn" data-act="enter">Open Dashboard</button> <button class="btn ghost" data-act="enter" data-p="bottle">Explore Smart Bottle</button>
+   <p class="mut sm">Patient data is stored locally in this prototype. No real medical diagnosis is performed.</p></div>
+  <div class="bw big"><i class="cap"></i><div class="bottle"><div class="water" style="height:68%"></div></div><span class="chip">📡 ESP32 · 68%</span></div>
+ </div>
+ <div class="g feat"><div class="c">⏰<h3>Smart Reminders</h3>Sound, visual & browser alerts with snooze.</div><div class="c">📊<h3>Live Analytics</h3>Daily, weekly & hourly intake charts.</div><div class="c">🧑‍⚕️<h3>Caregiver View</h3>Status, missed reminders & long-gap alerts.</div><div class="c">🔌<h3>IoT-Ready</h3>Simulation now, ESP32 sensors later.</div></div>
+</div>
+
+<div id="app" hidden>
+ <aside id="side"><div class="logo">💧 HydraCare</div>
+  <nav><button data-go="dash">🏠 Dashboard</button><button data-go="patient">👤 Patient</button><button data-go="bottle">🍶 Bottle</button><button data-go="reminders">⏰ Reminders</button><button data-go="analytics">📊 Analytics</button><button data-go="care">🧑‍⚕️ Caregiver</button><button data-go="iot">📡 IoT Monitor</button><button data-go="hw">🔧 Hardware</button><button data-go="settings">⚙️ Settings</button></nav>
+  <small>🔒 Data stored locally. Prototype – not a medical device.</small></aside>
+ <main>
+  <div class="top"><button id="menu" class="btn ghost">☰</button><b data-k="name"></b><span class="pill st" data-k="status"></span><span class="sp"></span><button class="btn ghost" data-go="reminders">🔔<i id="bellN"></i></button><span class="av">👤</span></div>
+  <div id="banner" class="c warn" hidden>💧 <b>Time to drink water!</b> <button class="btn" data-act="drink" data-ml="250">Drank Water (250 ml)</button> <button class="btn ghost" data-act="snooze">Snooze 5 min</button></div>
+
+  <section class="pg" id="p-dash">
+   <div id="gapbox" class="c bad" hidden>⚠ You have not logged water for <b data-k="cur"></b>. <button class="btn" data-act="drink" data-ml="250">Drink 250 ml</button></div>
+   <div class="g">
+    <div class="c ctr"><h3>Today's Hydration</h3><svg class="ring" viewBox="0 0 120 120" data-ring="pct"></svg><p><b data-k="intake"></b> of <span data-k="target"></span></p></div>
+    <div class="c ctr"><h3>Hydration Score</h3><svg class="ring" viewBox="0 0 120 120" data-ring="score"></svg><p class="mut sm">Hydration Score: <span data-k="score"></span>/100 · not a diagnosis</p></div>
+    <div class="c ctr"><h3>Smart Bottle</h3><div class="bw"><i class="cap"></i><div class="bottle"><div class="water"></div></div></div><p data-k="lvlml"></p></div>
+    <div class="c"><h3>Today at a glance</h3><ul class="kv"><li>Remaining<b data-k="remain"></b></li><li>Reminders<b data-k="rem"></b></li><li>Missed<b data-k="miss"></b></li><li>Last drink<b data-k="last"></b></li><li>Next reminder<b data-k="next"></b></li><li>Bottle level<b data-k="lvl"></b></li><li>Streak<b data-k="streak"></b></li></ul>
+     <button class="btn" data-act="drink" data-ml="250">💧 Drink 250 ml</button> <button class="btn ghost" data-act="demo">▶ Demo Day</button></div>
+   </div>
+   <div class="g2"><div class="c"><h3>Today's Timeline</h3><ul class="tl"></ul></div><div class="c"><h3>Cumulative intake</h3><div class="ch"><canvas id="cDaily"></canvas></div></div></div>
+  </section>
+
+  <section class="pg" id="p-patient" hidden><div class="c"><h2>Patient Profile</h2>
+   <label>Demo patients <select id="prof"><option value="ravi">Ravi Kumar (68, post-surgery)</option><option value="meera">Meera Deshmukh (74)</option><option value="aarav">Aarav Sharma (35)</option></select></label>
+   <div class="form"><label>Name<input id="fName"></label><label>Age<input id="fAge" type="number"></label><label>Weight (kg)<input id="fW" type="number"></label><label>Daily target (ml)<input id="fT" type="number" step="50"></label><label>Wake-up<input id="fWake" type="time"></label><label>Sleep<input id="fSleep" type="time"></label><label>Reminder interval (min)<input id="fInt" type="number"></label></div>
+   <label>Medical / health notes<textarea id="fNotes" rows="3"></textarea></label>
+   <p class="mut">Estimated target (33 ml/kg): <b id="est"></b> — an estimate only, editable by doctor/user. <button class="btn ghost" data-act="useEst">Use estimate</button></p>
+   <button class="btn" data-act="saveP">Save profile</button></div></section>
+
+  <section class="pg" id="p-bottle" hidden><div class="g2"><div class="c ctr"><h2>Smart Bottle</h2><div class="bw big"><i class="cap"></i><div class="bottle"><div class="water"></div></div></div><h3 data-k="lvl"></h3></div>
+   <div class="c"><ul class="kv"><li>Capacity<b data-k="cap"></b></li><li>Current level<b data-k="lvlml"></b></li><li>Consumed from bottle<b data-k="used"></b></li><li>Bottle percentage<b data-k="lvl"></b></li></ul>
+   <label>Capacity (ml)<input id="capIn" type="number" min="250" max="2000" step="50"></label>
+   <button class="btn" data-act="drink" data-ml="100">Drink 100 ml</button> <button class="btn" data-act="drink" data-ml="250">Drink 250 ml</button> <button class="btn" data-act="drink" data-ml="500">Drink 500 ml</button> <button class="btn ghost" data-act="refill">🔄 Refill</button>
+   <h3>Today's history</h3><ul class="tl"></ul></div></div></section>
+
+  <section class="pg" id="p-reminders" hidden><div class="g2"><div class="c"><h2>Smart Reminders</h2>
+   <label>Custom reminder interval (min)<input id="intIn" type="number" min="15" max="360"></label>
+   <p><button class="btn" data-act="test">🔔 Test reminder</button> <button class="btn ghost" data-act="notif">Enable browser notifications</button> <button class="btn ghost" data-act="drink" data-ml="250">Drank Water</button> <button class="btn ghost" data-act="snooze">Snooze 5 min</button></p>
+   <p class="mut">Reminder stops automatically when water is logged. Next: <b data-k="next"></b></p><h3>Personalized schedule</h3><div id="sched" class="chips"></div></div>
+   <div class="c"><h3>Alerts & reminder log</h3><ul class="al"></ul></div></div></section>
+
+  <section class="pg" id="p-analytics" hidden><div class="g2"><div class="c"><h3>Daily hydration</h3><div class="ch"><canvas id="cDaily2"></canvas></div></div><div class="c"><h3>Weekly hydration</h3><div class="ch"><canvas id="cWeek"></canvas></div></div><div class="c"><h3>Consumption by hour</h3><div class="ch"><canvas id="cHour"></canvas></div></div><div class="c"><h3>Target vs actual</h3><div class="ch"><canvas id="cTvA"></canvas></div></div></div>
+   <div class="c"><b>Weekly consistency:</b> <span data-k="weekc"></span> · <b>Streak:</b> <span data-k="streak"></span></div></section>
+
+  <section class="pg" id="p-care" hidden><div class="c"><h2>Caregiver / Doctor Dashboard</h2><p class="mut">Prototype only – not a medical diagnostic system.</p>
+   <ul class="kv"><li>Patient<b data-k="name"></b></li><li>Hydration today<b data-k="pct"></b></li><li>Last intake<b data-k="last"></b></li><li>Status<b data-k="status"></b></li><li>Missed reminders<b data-k="miss"></b></li></ul>
+   <button class="btn ghost" data-act="gap">⏩ Simulate long gap</button> <button class="btn ghost" data-act="live">Back to live time</button></div>
+   <div class="g2"><div class="c"><h3>Weekly hydration %</h3><div class="ch"><canvas id="cCare"></canvas></div></div><div class="c"><h3>Alerts</h3><ul class="al"></ul></div></div>
+   <div class="c"><h3>Safety concept</h3>If no hydration activity is recorded for a configurable period (Settings), a caregiver alert is generated. This is a simulation, not real medical monitoring.</div></section>
+
+  <section class="pg" id="p-iot" hidden><div class="g"><div class="c ctr"><h3>Weight</h3><h2 data-k="weight"></h2></div><div class="c ctr"><h3>Water level</h3><h2 data-k="lvl"></h2></div><div class="c ctr"><h3>Temperature</h3><h2 data-k="temp"></h2></div><div class="c ctr"><h3>Battery / Wi-Fi</h3><h2>87% · ●●●○</h2></div></div>
+   <div class="c"><h3>IoT Simulation Mode</h3><button class="btn" data-sim="drink">Drink detected</button> <button class="btn" data-sim="refill">Bottle refilled</button> <button class="btn" data-sim="low">Low water</button> <button class="btn" data-sim="read">Sensor reading</button> <button class="btn" data-sim="resp">Reminder response</button>
+   <pre id="payload">{ waiting for events… }</pre><ul class="al" id="evs"></ul></div></section>
+
+  <section class="pg" id="p-hw" hidden><div class="c"><h2>Hardware Architecture</h2><div class="flow"><span>🍶 Smart Bottle</span><span>📟 ESP32</span><span>⚖️ Load Cell (HX711)</span><span>📏 Water Level Measurement</span><span>💡 LED / 🔔 Buzzer</span><span>🔋 Battery</span><span>📡 Bluetooth / Wi-Fi</span><span>📱 Mobile / Web Dashboard</span></div></div>
+   <div class="c"><h3>Future Hardware Integration</h3><p>The simulation talks to one adapter, <code>HydrationAPI.ingest()</code>. A real ESP32 replaces the buttons by sending the same JSON:</p><pre>{"event":"drink","ml":250,"weight":610,"temp":22.4}</pre><p>Load cell → weight → level (weight − bottle tare). A weight drop = drink; a jump up = refill. The ESP32 buzzer/LED replaces the sound alert. Send data over Wi-Fi (HTTP/MQTT) to a small Node.js/Express bridge (<code>server.js</code>), which the dashboard can read.</p></div></section>
+
+  <section class="pg" id="p-settings" hidden><div class="c"><h2>Settings</h2>
+   <label><input type="checkbox" id="dark"> Dark mode</label>
+   <label>Long-gap warning after (min)<input id="gapIn" type="number" min="30"></label>
+   <label>Caregiver alert after (min)<input id="cgIn" type="number" min="30"></label>
+   <p><button class="btn" data-act="csv">⬇ Export CSV</button> <button class="btn ghost" data-act="resetday">Reset day</button> <button class="btn ghost" data-act="resetall">Reset everything</button></p>
+   <p class="mut">🔒 Patient data is stored locally in this prototype. No real medical diagnosis is performed. It does not replace doctors or medical devices.</p></div></section>
+ </main>
+</div>
+<div id="toast"></div>
+<script src="js/app.js"></script></body></html>
