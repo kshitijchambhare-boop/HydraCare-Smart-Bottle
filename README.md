@@ -1,5 +1,7 @@
 # HydraCare - Smart Patient Hydration Bottle
 
+[🌐 Open the live HydraCare website](https://kshitijchambhare-boop.github.io/HydraCare-Smart-Bottle/)
+
 Hackathon prototype with hydration reminders, a smart-bottle simulation, caregiver dashboard, analytics, IoT simulation, and hardware architecture.
 
 > Prototype only. Data is stored locally in the browser. No medical diagnosis is performed.
